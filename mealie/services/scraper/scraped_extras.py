@@ -19,13 +19,13 @@ class ScraperContext:
 class ScrapedExtras:
     def __init__(self) -> None:
         self._tags: list[str] = []
-        self._categories: list[str] = []
+        self._category: list[str] = []
 
     def set_tags(self, tags: list[str]) -> None:
         self._tags = tags
 
-    def set_categories(self, categories: list[str]) -> None:
-        self._categories = categories
+    def set_category(self, category: list[str]) -> None:
+        self._category = category
 
     def use_tags(self, ctx: ScraperContext) -> list[TagOut]:
         if not self._tags:
@@ -54,15 +54,15 @@ class ScrapedExtras:
 
         return tags
 
-    def use_categories(self, ctx: ScraperContext) -> list[TagOut]:
-        if not self._categories:
+    def use_category(self, ctx: ScraperContext) -> list[TagOut]:
+        if not self._category:
             return []
 
         repo = ctx.repos.categories
 
-        categories = []
+        category = []
         seen_category_slugs: set[str] = set()
-        for category in self._categories:
+        for category in self._category:
             slugify_category = slugify(category)
             if slugify_category in seen_category_slugs:
                 continue
@@ -71,12 +71,12 @@ class ScrapedExtras:
 
             # Check if category exists
             if db_category := repo.get_one(slugify_category, "slug"):
-                categories.append(db_category)
+                category.append(db_category)
                 continue
 
             save_data = CategorySave(name=category, group_id=ctx.repos.group_id)
             db_category = repo.create(save_data)
 
-            categories.append(db_category)
+            category.append(db_category)
 
-        return categories
+        return category

@@ -2,7 +2,7 @@
   <div>
     <v-form
       ref="domUrlForm"
-      @submit.prevent="createByUrl(recipeUrl, importKeywordsAsTags, importCategories)"
+      @submit.prevent="createByUrl(recipeUrl, importKeywordsAsTags, ImportCategory)"
     >
       <div>
         <v-card-title class="headline">
@@ -39,7 +39,7 @@
           :label="$t('recipe.import-original-keywords-as-tags')"
         />
         <v-checkbox
-          v-model="importCategories"
+          v-model="ImportCategory"
           color="primary"
           hide-details
           :label="$t('recipe.import-categories')"
@@ -147,7 +147,7 @@ export default defineNuxtComponent({
 
     const {
       importKeywordsAsTags,
-      importCategories,
+      ImportCategory,
       stayInEditMode,
       parseRecipe,
       navigateToRecipe,
@@ -209,7 +209,7 @@ export default defineNuxtComponent({
 
     const domUrlForm = ref<VForm | null>(null);
 
-    async function createByUrl(url: string | null, importKeywordsAsTags: boolean, importCategories: boolean) {
+    async function createByUrl(url: string | null, importKeywordsAsTags: boolean, ImportCategory: boolean) {
       if (url === null) {
         return;
       }
@@ -219,7 +219,7 @@ export default defineNuxtComponent({
         return;
       }
       state.loading = true;
-      const { response } = await api.recipes.createOneByUrl(url, importKeywordsAsTags, importCategories);
+      const { response } = await api.recipes.createOneByUrl(url, importKeywordsAsTags, ImportCategory);
       handleResponse(response, importKeywordsAsTags);
     }
 
@@ -228,7 +228,7 @@ export default defineNuxtComponent({
       htmlOrJsonImporterTarget,
       recipeUrl,
       importKeywordsAsTags,
-      importCategories,
+      ImportCategory,
       stayInEditMode,
       parseRecipe,
       domUrlForm,
