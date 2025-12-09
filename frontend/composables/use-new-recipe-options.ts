@@ -2,7 +2,7 @@ import { useRecipeCreatePreferences } from "~/composables/use-users/preferences"
 
 export interface UseNewRecipeOptionsProps {
   enableImportKeywords?: boolean;
-  enableImportCategories?: boolean;
+  enableImportCategory?: boolean;
   enableStayInEditMode?: boolean;
   enableParseRecipe?: boolean;
 }
@@ -10,7 +10,7 @@ export interface UseNewRecipeOptionsProps {
 export function useNewRecipeOptions(props: UseNewRecipeOptionsProps = {}) {
   const {
     enableImportKeywords = true,
-    enableImportCategories = true,
+    enableImportCategory = true,
     enableStayInEditMode = true,
     enableParseRecipe = true,
   } = props;
@@ -29,14 +29,14 @@ export function useNewRecipeOptions(props: UseNewRecipeOptionsProps = {}) {
     },
   });
 
-  const importCategories = computed({
+  const importCategory = computed({
     get() {
-      if (!enableImportCategories) return false;
-      return recipeCreatePreferences.value.importCategories;
+      if (!enableImportCategory) return false;
+      return recipeCreatePreferences.value.importCategory;
     },
     set(v: boolean) {
-      if (!enableImportCategories) return;
-      recipeCreatePreferences.value.importCategories = v;
+      if (!enableImportCategory) return;
+      recipeCreatePreferences.value.importCategory = v;
     },
   });
 

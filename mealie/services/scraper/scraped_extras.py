@@ -19,13 +19,13 @@ class ScraperContext:
 class ScrapedExtras:
     def __init__(self) -> None:
         self._tags: list[str] = []
-        self._categories: list[str] = []
+        self._category: str = ""
 
     def set_tags(self, tags: list[str]) -> None:
         self._tags = tags
 
-    def set_categories(self, categories: list[str]) -> None:
-        self._categories = categories
+    def set_category(self, category: str) -> None:
+        self._category = category
 
     def use_tags(self, ctx: ScraperContext) -> list[TagOut]:
         if not self._tags:
@@ -54,15 +54,21 @@ class ScrapedExtras:
 
         return tags
 
-    def use_categories(self, ctx: ScraperContext) -> list[TagOut]:
-        if not self._categories:
+    def use_category(self, ctx: ScraperContext) -> list[TagOut]:
+        if not self._category:
             return []
 
         repo = ctx.repos.categories
 
+        # Split comma-separated categories if category is improperly used
+        category_list = [cat.strip() for cat in self._category.split(",")] if isinstance(self._category, str) else [self._category]
+
         categories = []
         seen_category_slugs: set[str] = set()
-        for category in self._categories:
+        for category in category_list:
+            if not category:
+                continue
+                
             slugify_category = slugify(category)
             if slugify_category in seen_category_slugs:
                 continue
