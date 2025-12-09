@@ -84,7 +84,7 @@ export function useNewRecipeOptions(props: UseNewRecipeOptionsProps = {}) {
   return {
     // Computed properties for the checkboxes
     importKeywordsAsTags,
-    importCategories,
+    importCategory,
     stayInEditMode,
     parseRecipe,
 
@@ -93,7 +93,7 @@ export function useNewRecipeOptions(props: UseNewRecipeOptionsProps = {}) {
 
     // Props for conditional rendering
     enableImportKeywords,
-    enableImportCategories,
+    enableImportCategory,
     enableStayInEditMode,
     enableParseRecipe,
   };
